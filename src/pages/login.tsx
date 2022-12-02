@@ -1,13 +1,9 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { useState } from "react";
 import styled from "styled-components";
-import Field from "../components/input/Field";
+import LoginForm from "../components/form/LoginForm";
 
 const LoginPage: NextPage = () => {
-  const [idInputValue, setIdInputValue] = useState("");
-  const [passwordInputValue, setPasswordInputValue] = useState("");
-
   return (
     <>
       <Header>
@@ -18,23 +14,7 @@ const LoginPage: NextPage = () => {
           <p>login</p>
         </Link>
       </Header>
-      <Form>
-        <Field
-          labelText={"아이디"}
-          inputValue={idInputValue}
-          handleChangeInputValue={() => setIdInputValue}
-          isError={true}
-          errorText={"올바른 아이디 형식으로 입력해주세요."}
-        />
-        <Field
-          labelText={"비밀번호"}
-          inputValue={passwordInputValue}
-          handleChangeInputValue={() => setPasswordInputValue}
-          isError={true}
-          errorText={"올바른 비밀번호 형식으로 입력해주세요."}
-        />
-        <LoginButton disabled>로그인</LoginButton>
-      </Form>
+      <LoginForm />
     </>
   );
 };

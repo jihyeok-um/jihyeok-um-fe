@@ -5,6 +5,7 @@ const Field = ({
   labelText,
   inputValue,
   handleChangeInputValue,
+  handleBlurInput,
   isError,
   errorText,
 }: FieldProps) => {
@@ -15,6 +16,7 @@ const Field = ({
         isError={isError}
         value={inputValue}
         onChange={handleChangeInputValue}
+        onBlur={handleBlurInput}
       />
       <Description errorText={errorText} isError={isError} />
     </S.Container>
@@ -24,7 +26,8 @@ const Field = ({
 interface FieldProps {
   labelText: string;
   inputValue: string;
-  handleChangeInputValue: () => void;
+  handleChangeInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlurInput: () => void;
   isError: boolean;
   errorText: string;
 }

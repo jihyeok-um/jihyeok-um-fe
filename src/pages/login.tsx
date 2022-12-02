@@ -1,24 +1,38 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
-import React from 'react';
-import styled from 'styled-components';
+import type { NextPage } from "next";
+import Link from "next/link";
+import { useState } from "react";
+import styled from "styled-components";
+import Field from "../components/input/Field";
 
 const LoginPage: NextPage = () => {
+  const [idInputValue, setIdInputValue] = useState("");
+  const [passwordInputValue, setPasswordInputValue] = useState("");
+
   return (
     <>
       <Header>
-        <Link href='/'>
+        <Link href="/">
           <Title>HAUS</Title>
         </Link>
-        <Link href='/login'>
+        <Link href="/login">
           <p>login</p>
         </Link>
       </Header>
       <Form>
-        <div>아이디</div>
-        <TextInput type='text' />
-        <div>비밀번호</div>
-        <TextInput type='password' />
+        <Field
+          labelText={"아이디"}
+          inputValue={idInputValue}
+          handleChangeInputValue={() => setIdInputValue}
+          isError={true}
+          errorText={"올바른 아이디 형식으로 입력해주세요."}
+        />
+        <Field
+          labelText={"비밀번호"}
+          inputValue={passwordInputValue}
+          handleChangeInputValue={() => setPasswordInputValue}
+          isError={true}
+          errorText={"올바른 비밀번호 형식으로 입력해주세요."}
+        />
         <LoginButton disabled>로그인</LoginButton>
       </Form>
     </>

@@ -1,21 +1,17 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import styled from "styled-components";
-import Header from "../components/Header";
 
 const HomePage: NextPage = () => {
   return (
-    <>
-      <Header />
-      <Container>
-        <Link href="/pagination?page=1">
-          <StyledLink>pagination</StyledLink>
-        </Link>
-        <Link href="/infinite-scroll">
-          <StyledLink>infinite scroll</StyledLink>
-        </Link>
-      </Container>
-    </>
+    <Container>
+      <Link href="/pagination?page=1">
+        <StyledLink>pagination</StyledLink>
+      </Link>
+      <Link href="/infinite-scroll">
+        <StyledLink>infinite scroll</StyledLink>
+      </Link>
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 0;
     background: none;
     user-select: none;
+    cursor: pointer;
   }
 
   ul, ol {

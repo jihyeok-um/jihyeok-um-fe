@@ -1,20 +1,26 @@
-import styled from 'styled-components';
+import { useRouter } from "next/router";
+import styled from "styled-components";
+import { ProductInfo } from "../types/product";
 
-import { Product } from '../types/product';
+import { getPriceWithComma } from "../utilities";
 
-type ProductItemProps = {
-  product: Product;
+const ProductItem = ({
+  product: { id, name, thumbnail, price },
+}: ProductItemProps) => {
+  const router = useRouter();
+
+  return (
+    <Container onClick={() => router.push(`/products/${id}`)}>
+      <Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
+      <Name>{name}</Name>
+      <Price>{getPriceWithComma(price)}</Price>
+    </Container>
+  );
 };
 
-const ProductItem = ({ product: { name, thumbnail, price } }: ProductItemProps) => (
-  <Container>
-    <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
-    <Name>{name}</Name>
-    <Price>{price}</Price>
-  </Container>
-);
-
-export default ProductItem;
+interface ProductItemProps {
+  product: ProductInfo;
+}
 
 const Container = styled.a`
   width: 180px;
@@ -35,3 +41,5 @@ const Name = styled.div`
 const Price = styled.div`
   margin-top: 4px;
 `;
+
+export default ProductItem;

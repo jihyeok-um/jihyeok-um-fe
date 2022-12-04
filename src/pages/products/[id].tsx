@@ -2,20 +2,19 @@ import type { NextPage } from "next";
 import styled from "styled-components";
 
 import products from "../../api/data/products.json";
-import Header from "../../components/Header";
+import { getPriceWithComma } from "../../utilities";
 
 const ProductDetailPage: NextPage = () => {
   const product = products[0];
 
   return (
     <>
-      <Header />
       <Thumbnail
         src={product.thumbnail ? product.thumbnail : "/defaultThumbnail.jpg"}
       />
       <ProductInfoWrapper>
         <Name>{product.name}</Name>
-        <Price>{product.price}원</Price>
+        <Price>{getPriceWithComma(product.price)}</Price>
       </ProductInfoWrapper>
     </>
   );

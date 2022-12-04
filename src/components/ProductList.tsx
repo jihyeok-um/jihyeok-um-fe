@@ -1,11 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Product } from '../types/product';
-import ProductItem from './ProductItem';
-
-type ProductListProps = {
-  products: Product[];
-};
+import { ProductInfo } from "../types/product";
+import ProductItem from "./ProductItem";
 
 const ProductList = ({ products }: ProductListProps) => (
   <Container>
@@ -15,7 +11,9 @@ const ProductList = ({ products }: ProductListProps) => (
   </Container>
 );
 
-export default ProductList;
+interface ProductListProps {
+  products: ProductInfo[];
+}
 
 const Container = styled.div`
   display: flex;
@@ -23,3 +21,5 @@ const Container = styled.div`
   width: 400px;
   margin-left: -20px;
 `;
+
+export default ProductList;

@@ -1,19 +1,32 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
-import products from "../api/data/products.json";
 import Pagination from "../components/Pagination";
 import ProductList from "../components/ProductList";
+import usePagination from "../hooks/usePagination";
 
 const PaginationPage: NextPage = () => {
-  const router = useRouter();
-  const { page } = router.query;
+  const { currentPage, currentWrappedPages, maxPage, products, isError } =
+    usePagination();
+
+  if (isError) {
+    return (
+      <ErrorContainer>
+        <div> 존재하지 않는 페이지입니다</div>
+      </ErrorContainer>
+    );
+  }
 
   return (
     <Container>
-      <ProductList products={products.slice(0, 10)} />
-      <Pagination />
+      {products && <ProductList products={products} />}
+      {currentPage && maxPage && currentWrappedPages && (
+        <Pagination
+          maxPage={maxPage}
+          currentPage={currentPage}
+          currentWrappedPages={currentWrappedPages}
+        />
+      )}
     </Container>
   );
 };
@@ -25,4 +38,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 20px 40px;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 `;

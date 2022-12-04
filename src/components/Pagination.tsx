@@ -1,28 +1,55 @@
-import React from 'react';
-import styled from 'styled-components';
-import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
+import { useRouter } from "next/router";
+import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
+import styled from "styled-components";
 
-const Pagination = () => {
+const Pagination = ({
+  currentPage,
+  maxPage,
+  currentWrappedPages,
+}: PaginationProps) => {
+  const router = useRouter();
+
   return (
     <Container>
-      <Button disabled>
+      <Button
+        disabled={currentWrappedPages[0] === 1}
+        onClick={() =>
+          router.push(`${router.basePath}?page=${currentWrappedPages[0] - 1}`)
+        }
+      >
         <VscChevronLeft />
       </Button>
       <PageWrapper>
-        {[1, 2, 3, 4, 5].map((page) => (
-          <Page key={page} selected={page === 1} disabled={page === 1}>
+        {currentWrappedPages.map((page) => (
+          <Page
+            key={page}
+            onClick={() => router.push(`${router.basePath}?page=${page}`)}
+            selected={page === currentPage}
+            disabled={page === currentPage}
+          >
             {page}
           </Page>
         ))}
       </PageWrapper>
-      <Button disabled={false}>
+      <Button
+        disabled={
+          currentWrappedPages[currentWrappedPages.length - 1] + 1 > maxPage
+        }
+        onClick={() =>
+          router.push(`${router.basePath}?page=${currentWrappedPages[4] + 1}`)
+        }
+      >
         <VscChevronRight />
       </Button>
     </Container>
   );
 };
 
-export default Pagination;
+interface PaginationProps {
+  currentPage: number;
+  maxPage: number;
+  currentWrappedPages: number[];
+}
 
 const Container = styled.div`
   display: flex;
@@ -46,14 +73,10 @@ const PageWrapper = styled.div`
   margin: 0 16px;
 `;
 
-type PageType = {
-  selected: boolean;
-};
-
-const Page = styled.button<PageType>`
+const Page = styled.button<{ selected: boolean }>`
   padding: 4px 6px;
-  background-color: ${({ selected }) => (selected ? '#000' : 'transparent')};
-  color: ${({ selected }) => (selected ? '#fff' : '#000')};
+  background-color: ${({ selected }) => (selected ? "#000" : "transparent")};
+  color: ${({ selected }) => (selected ? "#fff" : "#000")};
   font-size: 20px;
 
   & + & {
@@ -64,3 +87,5 @@ const Page = styled.button<PageType>`
     cursor: default;
   }
 `;
+
+export default Pagination;

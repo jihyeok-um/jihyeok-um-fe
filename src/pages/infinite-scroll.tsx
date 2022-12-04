@@ -2,17 +2,13 @@ import type { NextPage } from "next";
 import styled from "styled-components";
 
 import products from "../api/data/products.json";
-import Header from "../components/Header";
 import ProductList from "../components/ProductList";
 
 const InfiniteScrollPage: NextPage = () => {
   return (
-    <>
-      <Header />
-      <Container>
-        <ProductList products={products} />
-      </Container>
-    </>
+    <Container>
+      <ProductList products={products} />
+    </Container>
   );
 };
 

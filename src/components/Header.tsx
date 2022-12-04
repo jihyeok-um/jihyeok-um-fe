@@ -1,15 +1,28 @@
 import Link from "next/link";
 import styled from "styled-components";
+import useUser from "../hooks/useUser";
 
 const Header = () => {
+  const { userInfo, handleLogout } = useUser();
+
   return (
     <S.Header>
       <Link href="/">
         <S.Title>HAUS</S.Title>
       </Link>
-      <Link href="/login">
-        <p>login</p>
-      </Link>
+      {userInfo.accessToken !== "" && (
+        <S.UserInfoContainer>
+          <p>{userInfo.user.NAME}</p>
+          <Link href={"/"}>
+            <button onClick={handleLogout}>logout</button>
+          </Link>
+        </S.UserInfoContainer>
+      )}
+      {userInfo.accessToken === "" && (
+        <Link href="/login">
+          <button>login</button>
+        </Link>
+      )}
     </S.Header>
   );
 };
@@ -24,6 +37,12 @@ const S = {
 
   Title: styled.a`
     font-size: 48px;
+  `,
+
+  UserInfoContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   `,
 };
 

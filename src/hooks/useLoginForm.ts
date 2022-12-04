@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { validateCorrectIdValue } from "../utilities";
 import { validateCorrectPasswordValue } from "./../utilities/index";
+import useUser from "./useUser";
 
 const useLoginForm = () => {
   const [idInputValue, setIdInputValue] = useState("");
   const [idError, setIdError] = useState(false);
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const { handleLoginWithIdPassword } = useUser();
 
   const handleChangeIdInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = e.currentTarget.value;
@@ -47,9 +49,13 @@ const useLoginForm = () => {
     return true;
   };
 
-  const handleSubmitLoginForm = (e: React.FormEvent) => {
+  const handleSubmitLoginForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("로그인");
+
+    await handleLoginWithIdPassword({
+      id: idInputValue,
+      password: passwordInputValue,
+    });
   };
 
   return {

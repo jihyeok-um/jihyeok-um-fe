@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { requestPostLogin } from "../axios/login";
+import { requestPostLogin } from "../axios";
 import { LoginInfo } from "../types/login";
 import { UserContext, UserDispatchContext } from "./../contexts/userContext";
 

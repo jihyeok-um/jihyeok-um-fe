@@ -9,3 +9,7 @@ export interface ProductsResponse {
   products: ProductInfo[];
   totalCount: number;
 }
+
+export interface ProductResponse {
+  product: ProductInfo;
+}

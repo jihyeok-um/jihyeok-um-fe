@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LoginInfo, LoginResponse } from "../types/login";
-import { ProductsResponse } from "../types/product";
+import { ProductResponse, ProductsResponse } from "../types/product";
 
 export const requestPostLogin = async (
   loginInfo: LoginInfo
@@ -14,6 +14,14 @@ export const requestGetProducts = async (
   pageIndex: number
 ): Promise<ProductsResponse> => {
   const res = await axios.get(`/products?page=${pageIndex}&size=10`);
+
+  return res.data.data;
+};
+
+export const requestGetProduct = async (
+  productId: number
+): Promise<ProductResponse> => {
+  const res = await axios.get(`/products/${productId}`);
 
   return res.data.data;
 };

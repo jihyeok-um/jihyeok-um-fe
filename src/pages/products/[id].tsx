@@ -1,21 +1,35 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
 
-import products from "../../api/data/products.json";
+import useProduct from "../../hooks/useProduct";
 import { getPriceWithComma } from "../../utilities";
 
 const ProductDetailPage: NextPage = () => {
-  const product = products[0];
+  const { product, isError } = useProduct();
+
+  if (isError) {
+    return (
+      <ErrorContainer>
+        <div>존재하지 않는 상품입니다.</div>
+      </ErrorContainer>
+    );
+  }
 
   return (
     <>
-      <Thumbnail
-        src={product.thumbnail ? product.thumbnail : "/defaultThumbnail.jpg"}
-      />
-      <ProductInfoWrapper>
-        <Name>{product.name}</Name>
-        <Price>{getPriceWithComma(product.price)}</Price>
-      </ProductInfoWrapper>
+      {product && (
+        <>
+          <Thumbnail
+            src={
+              product.thumbnail ? product.thumbnail : "/defaultThumbnail.jpg"
+            }
+          />
+          <ProductInfoWrapper>
+            <Name>{product.name}</Name>
+            <Price>{getPriceWithComma(product.price)}</Price>
+          </ProductInfoWrapper>
+        </>
+      )}
     </>
   );
 };
@@ -40,4 +54,11 @@ const Name = styled.div`
 const Price = styled.div`
   font-size: 18px;
   margin-top: 8px;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 `;

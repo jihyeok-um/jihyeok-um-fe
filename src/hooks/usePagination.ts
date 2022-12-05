@@ -14,14 +14,14 @@ const usePagination = () => {
 
   const getProducts = async (pageIndex: number) => {
     try {
-      const productInfo = await requestGetProducts(pageIndex);
-      const fullProductPageCount = Math.floor(productInfo.totalCount / 10);
-      const remainProductPageCount = productInfo.totalCount % 10 > 0 ? 1 : 0;
+      const productsInfo = await requestGetProducts(pageIndex);
+      const fullProductPageCount = Math.floor(productsInfo.totalCount / 10);
+      const remainProductPageCount = productsInfo.totalCount % 10 > 0 ? 1 : 0;
       const totalPageCount = fullProductPageCount + remainProductPageCount;
 
       setCurrentPage(pageIndex);
       setMaxPage(totalPageCount);
-      setProducts(productInfo.products);
+      setProducts(productsInfo.products);
 
       getCurrentWrappedPages(pageIndex, totalPageCount);
       setIsError(false);

@@ -38,17 +38,6 @@ const useLoginForm = () => {
     }
   };
 
-  const isDisabledLoginButton = () => {
-    if (
-      validateCorrectPasswordValue(passwordInputValue) &&
-      validateCorrectIdValue(idInputValue)
-    ) {
-      return false;
-    }
-
-    return true;
-  };
-
   const handleSubmitLoginForm = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -67,7 +56,6 @@ const useLoginForm = () => {
     handleChangePasswordInputValue,
     validateIdError,
     validatePasswordError,
-    isDisabledLoginButton,
     handleSubmitLoginForm,
   };
 };

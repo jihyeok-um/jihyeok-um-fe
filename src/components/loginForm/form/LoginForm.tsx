@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import useLoginForm from "../../../hooks/useLoginForm";
+import {
+  validateCorrectIdValue,
+  validateCorrectPasswordValue,
+} from "../../../utilities";
 import Field from "../input/Field";
 
 const LoginForm = () => {
@@ -12,7 +16,6 @@ const LoginForm = () => {
     handleChangePasswordInputValue,
     validateIdError,
     validatePasswordError,
-    isDisabledLoginButton,
     handleSubmitLoginForm,
   } = useLoginForm();
 
@@ -34,7 +37,14 @@ const LoginForm = () => {
         isError={passwordError}
         errorText={"올바른 비밀번호 형식으로 입력해주세요."}
       />
-      <S.LoginButton disabled={isDisabledLoginButton()}>로그인</S.LoginButton>
+      <S.LoginButton
+        disabled={
+          !validateCorrectPasswordValue(passwordInputValue) ||
+          !validateCorrectIdValue(idInputValue)
+        }
+      >
+        로그인
+      </S.LoginButton>
     </S.Form>
   );
 };

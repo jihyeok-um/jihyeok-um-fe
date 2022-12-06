@@ -1,91 +1,93 @@
-import { useRouter } from "next/router";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import styled from "styled-components";
 
 const Pagination = ({
-  currentPage,
   maxPage,
-  currentWrappedPages,
+  currentPage,
+  wrappedPages,
+  handleClickNextWrappedPageButton,
+  handleClickPrevWrappedPageButton,
+  handleClickProduct,
 }: PaginationProps) => {
-  const router = useRouter();
+  const isWrappedPageFirst = wrappedPages[0] === 1;
+  const isWrappedPageLast = wrappedPages[wrappedPages.length - 1] + 1 > maxPage;
 
   return (
-    <Container>
-      <Button
-        disabled={currentWrappedPages[0] === 1}
-        onClick={() =>
-          router.push(`${router.basePath}?page=${currentWrappedPages[0] - 1}`)
-        }
+    <S.Container>
+      <S.Button
+        disabled={isWrappedPageFirst}
+        onClick={handleClickPrevWrappedPageButton}
       >
         <VscChevronLeft />
-      </Button>
-      <PageWrapper>
-        {currentWrappedPages.map((page) => (
-          <Page
+      </S.Button>
+      <S.PageWrapper>
+        {wrappedPages.map((page) => (
+          <S.Page
             key={page}
-            onClick={() => router.push(`${router.basePath}?page=${page}`)}
             selected={page === currentPage}
             disabled={page === currentPage}
+            onClick={handleClickProduct(page)}
           >
             {page}
-          </Page>
+          </S.Page>
         ))}
-      </PageWrapper>
-      <Button
-        disabled={
-          currentWrappedPages[currentWrappedPages.length - 1] + 1 > maxPage
-        }
-        onClick={() =>
-          router.push(`${router.basePath}?page=${currentWrappedPages[4] + 1}`)
-        }
+      </S.PageWrapper>
+      <S.Button
+        disabled={isWrappedPageLast}
+        onClick={handleClickNextWrappedPageButton}
       >
         <VscChevronRight />
-      </Button>
-    </Container>
+      </S.Button>
+    </S.Container>
   );
 };
 
 interface PaginationProps {
-  currentPage: number;
   maxPage: number;
-  currentWrappedPages: number[];
+  currentPage: number;
+  wrappedPages: number[];
+  handleClickNextWrappedPageButton: () => void;
+  handleClickPrevWrappedPageButton: () => void;
+  handleClickProduct: (page: number) => () => void;
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  margin-top: 40px;
-  margin-left: -20px;
-`;
+const S = {
+  Container: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    margin-top: 40px;
+    margin-left: -20px;
+  `,
 
-const Button = styled.button`
-  &:disabled {
-    color: #e2e2ea;
-    cursor: default;
-  }
-`;
+  Button: styled.button`
+    &:disabled {
+      color: #e2e2ea;
+      cursor: default;
+    }
+  `,
 
-const PageWrapper = styled.div`
-  display: flex;
-  margin: 0 16px;
-`;
+  PageWrapper: styled.div`
+    display: flex;
+    margin: 0 16px;
+  `,
 
-const Page = styled.button<{ selected: boolean }>`
-  padding: 4px 6px;
-  background-color: ${({ selected }) => (selected ? "#000" : "transparent")};
-  color: ${({ selected }) => (selected ? "#fff" : "#000")};
-  font-size: 20px;
+  Page: styled.button<{ selected: boolean }>`
+    padding: 4px 6px;
+    background-color: ${({ selected }) => (selected ? "#000" : "transparent")};
+    color: ${({ selected }) => (selected ? "#fff" : "#000")};
+    font-size: 20px;
 
-  & + & {
-    margin-left: 4px;
-  }
+    & + & {
+      margin-left: 4px;
+    }
 
-  &:disabled {
-    cursor: default;
-  }
-`;
+    &:disabled {
+      cursor: default;
+    }
+  `,
+};
 
 export default Pagination;

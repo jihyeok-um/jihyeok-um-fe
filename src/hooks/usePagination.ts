@@ -1,66 +1,64 @@
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { requestGetProducts } from "../axios";
-import { ProductInfo } from "./../types/product";
+import { useState } from "react";
+import { requestGetProducts } from "./../axios/index";
+
 const usePagination = () => {
-  const [currentPage, setCurrentPage] = useState<number | null>(null);
-  const [currentWrappedPages, setCurrentWrappedPages] = useState<number[]>([]);
-  const [maxPage, setMaxPage] = useState<number | null>(null);
-  const [products, setProducts] = useState<ProductInfo[] | null>(null);
-  const [isError, setIsError] = useState(false);
   const router = useRouter();
-  const { page } = router.query;
+  const pageIndex = Number(router.query.page);
+  const [wrappedPages, setWrappedPages] = useState<number[]>([]);
+  const [maxPage, setMaxPage] = useState<number | null>(null);
 
-  const getProducts = async (pageIndex: number) => {
-    try {
-      const productsInfo = await requestGetProducts(pageIndex);
-      const fullProductPageCount = Math.floor(productsInfo.totalCount / 10);
-      const remainProductPageCount = productsInfo.totalCount % 10 > 0 ? 1 : 0;
-      const totalPageCount = fullProductPageCount + remainProductPageCount;
+  const {
+    data: products,
+    isLoading: productsLoading,
+    isError: productsError,
+  } = useQuery(["products", pageIndex], () => requestGetProducts(pageIndex), {
+    onError: () => {},
+    onSuccess: (products) => {
+      const fullProductPageCount = Math.floor(products.totalCount / 10);
+      const remainProductPageCount = products.totalCount % 10 > 0 ? 1 : 0;
 
-      setCurrentPage(pageIndex);
-      setMaxPage(totalPageCount);
-      setProducts(productsInfo.products);
+      setMaxPage(fullProductPageCount + remainProductPageCount);
+      getWrappedPages(fullProductPageCount + remainProductPageCount);
+    },
+  });
 
-      getCurrentWrappedPages(pageIndex, totalPageCount);
-      setIsError(false);
-    } catch (err) {
-      if (axios.isAxiosError(err) && err instanceof Error) {
-        if (err.response?.status === 404) {
-          setIsError(true);
-        }
-      }
-    }
-  };
-
-  const getCurrentWrappedPages = (currentPage: number, maxPage: number) => {
+  const getWrappedPages = (maxPage: number) => {
     const wrappedPages: number[] = [];
-    const minWrappedPage = Math.floor((currentPage - 1) / 5) * 5 + 1;
+    const minWrappedPage = Math.floor((pageIndex - 1) / 5) * 5 + 1;
     const maxWrappedPage = minWrappedPage + 4;
 
     for (let i = minWrappedPage; i <= maxWrappedPage; i++) {
       if (maxPage < i) break;
-
       wrappedPages.push(i);
     }
 
-    setCurrentWrappedPages(wrappedPages);
+    setWrappedPages(wrappedPages);
   };
 
-  useEffect(() => {
-    if (!page) return;
+  const handleClickNextWrappedPageButton = () => {
+    router.push(`${router.basePath}?page=${wrappedPages[4] + 1}`);
+  };
 
-    getProducts(Number(page));
-  }, [page]);
+  const handleClickPrevWrappedPageButton = () => {
+    router.push(`${router.basePath}?page=${wrappedPages[0] - 1}`);
+  };
+
+  const handleClickProduct = (page: number) => () => {
+    router.push(`${router.basePath}?page=${page}`);
+  };
 
   return {
-    currentPage,
-    currentWrappedPages,
-    products,
+    products: products?.products,
+    productsLoading,
+    productsError,
+    pageIndex,
     maxPage,
-    isError,
-    getProducts,
+    wrappedPages,
+    handleClickNextWrappedPageButton,
+    handleClickPrevWrappedPageButton,
+    handleClickProduct,
   };
 };
 

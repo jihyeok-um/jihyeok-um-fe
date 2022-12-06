@@ -1,48 +1,52 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
+import Error from "../components/Error";
 
 import Pagination from "../components/pagination/Pagination";
 import ProductList from "../components/pagination/ProductList";
+import Spinner from "../components/Spinner";
 import usePagination from "../hooks/usePagination";
 
 const PaginationPage: NextPage = () => {
-  const { currentPage, currentWrappedPages, maxPage, products, isError } =
-    usePagination();
+  const {
+    products,
+    productsLoading,
+    productsError,
+    pageIndex,
+    maxPage,
+    wrappedPages,
+    handleClickNextWrappedPageButton,
+    handleClickPrevWrappedPageButton,
+    handleClickProduct,
+  } = usePagination();
 
-  if (isError) {
-    return (
-      <ErrorContainer>
-        <div> 존재하지 않는 페이지입니다</div>
-      </ErrorContainer>
-    );
-  }
+  if (productsLoading) return <Spinner />;
+  if (productsError) return <Error errorText="존재하지 않는 페이지입니다" />;
 
   return (
-    <Container>
+    <S.Container>
       {products && <ProductList products={products} />}
-      {currentPage && maxPage && currentWrappedPages && (
+      {wrappedPages && maxPage && (
         <Pagination
           maxPage={maxPage}
-          currentPage={currentPage}
-          currentWrappedPages={currentWrappedPages}
+          currentPage={pageIndex}
+          wrappedPages={wrappedPages}
+          handleClickNextWrappedPageButton={handleClickNextWrappedPageButton}
+          handleClickPrevWrappedPageButton={handleClickPrevWrappedPageButton}
+          handleClickProduct={handleClickProduct}
         />
       )}
-    </Container>
+    </S.Container>
   );
 };
 
 export default PaginationPage;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px 40px;
-`;
-
-const ErrorContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-`;
+const S = {
+  Container: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 40px;
+  `,
+};

@@ -1,37 +1,18 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { requestGetProduct } from "./../axios/index";
-import { ProductInfo } from "./../types/product";
+
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+
 const useProduct = () => {
-  const [product, setProduct] = useState<ProductInfo | null>(null);
-  const [isError, setIsError] = useState(false);
   const router = useRouter();
+  const productId = Number(router.query.id);
+  const {
+    data: product,
+    isError: productError,
+    isLoading: productLoading,
+  } = useQuery(["product", productId], () => requestGetProduct(productId));
 
-  const getProduct = async (productId: number) => {
-    try {
-      const { product } = await requestGetProduct(productId);
-      setProduct(product);
-      setIsError(false);
-    } catch (err) {
-      if (axios.isAxiosError(err) && err instanceof Error) {
-        if (err.response?.status === 404) {
-          setIsError(true);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!isNaN(Number(router.query.id))) {
-      getProduct(Number(router.query.id));
-    }
-  }, [router.query.id]);
-
-  return {
-    product,
-    isError,
-  };
+  return { product: product?.product, productError, productLoading };
 };
 
 export default useProduct;

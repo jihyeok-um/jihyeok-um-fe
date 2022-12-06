@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ProductInfo } from "../types/product";
+import { ProductInfo } from "../../types/product";
 import ProductItem from "./ProductItem";
 
 const ProductList = ({ products }: ProductListProps) => (

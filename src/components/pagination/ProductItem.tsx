@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { ProductInfo } from "../types/product";
+import { ProductInfo } from "../../types/product";
 
-import { getPriceWithComma } from "../utilities";
+import { getPriceWithComma } from "../../utilities";
 
 const ProductItem = ({
   product: { id, name, thumbnail, price },

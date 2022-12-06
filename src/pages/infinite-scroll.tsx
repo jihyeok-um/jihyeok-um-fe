@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import styled from "styled-components";
 
 import products from "../api/data/products.json";
-import ProductList from "../components/ProductList";
+import ProductList from "../components/pagination/ProductList";
 
 const InfiniteScrollPage: NextPage = () => {
   return (

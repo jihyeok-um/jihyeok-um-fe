@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
 
-import Pagination from "../components/Pagination";
-import ProductList from "../components/ProductList";
+import Pagination from "../components/pagination/Pagination";
+import ProductList from "../components/pagination/ProductList";
 import usePagination from "../hooks/usePagination";
 
 const PaginationPage: NextPage = () => {

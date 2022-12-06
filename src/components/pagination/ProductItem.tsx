@@ -10,11 +10,11 @@ const ProductItem = ({
   const router = useRouter();
 
   return (
-    <Container onClick={() => router.push(`/products/${id}`)}>
-      <Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
-      <Name>{name}</Name>
-      <Price>{getPriceWithComma(price)}</Price>
-    </Container>
+    <S.Container onClick={() => router.push(`/products/${id}`)}>
+      <S.Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
+      <S.Name>{name}</S.Name>
+      <S.Price>{getPriceWithComma(price)}</S.Price>
+    </S.Container>
   );
 };
 
@@ -22,24 +22,26 @@ interface ProductItemProps {
   product: ProductInfo;
 }
 
-const Container = styled.a`
-  width: 180px;
-  margin-left: 20px;
-  margin-top: 20px;
-`;
+const S = {
+  Container: styled.a`
+    width: 180px;
+    margin-left: 20px;
+    margin-top: 20px;
+  `,
 
-const Thumbnail = styled.img`
-  width: 100%;
-  height: 180px;
-`;
+  Thumbnail: styled.img`
+    width: 100%;
+    height: 180px;
+  `,
 
-const Name = styled.div`
-  margin-top: 8px;
-  font-size: 16px;
-`;
+  Name: styled.div`
+    margin-top: 8px;
+    font-size: 16px;
+  `,
 
-const Price = styled.div`
-  margin-top: 4px;
-`;
+  Price: styled.div`
+    margin-top: 4px;
+  `,
+};
 
 export default ProductItem;

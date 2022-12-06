@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 const useProduct = () => {
   const router = useRouter();
   const productId = Number(router.query.id);
+
   const {
     data: product,
     isError: productError,

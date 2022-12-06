@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { requestPostLogin } from "../axios";
+import { INITIAL_USER_INFO, LOCAL_STORAGE } from "../constants";
 import { LoginInfo } from "../types/login";
 import { UserContext, UserDispatchContext } from "./../contexts/userContext";
 
@@ -13,24 +14,18 @@ const useUser = () => {
     const userInfo = await requestPostLogin(loginInfo);
 
     userInfoDispatcher(userInfo);
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.setItem(LOCAL_STORAGE.USER_INFO, JSON.stringify(userInfo));
     router.replace("/");
   };
 
   const handleLogout = () => {
-    userInfoDispatcher({
-      accessToken: "",
-      user: {
-        ID: "",
-        NAME: "",
-      },
-    });
-    localStorage.removeItem("userInfo");
+    userInfoDispatcher(INITIAL_USER_INFO);
+    localStorage.removeItem(LOCAL_STORAGE.USER_INFO);
     router.replace("/");
   };
 
   useEffect(() => {
-    const localStorageUserInfo = localStorage.getItem("userInfo");
+    const localStorageUserInfo = localStorage.getItem(LOCAL_STORAGE.USER_INFO);
     if (localStorageUserInfo) {
       userInfoDispatcher(JSON.parse(localStorageUserInfo));
     }

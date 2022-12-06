@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { requestGetProducts } from "./../axios/index";
+import { PAGE_COUNT, PRODUCT_PER_PAGE, QUERY_KEY } from "./../constants/index";
 
 const usePagination = () => {
   const router = useRouter();
@@ -13,21 +14,29 @@ const usePagination = () => {
     data: products,
     isLoading: productsLoading,
     isError: productsError,
-  } = useQuery(["products", pageIndex], () => requestGetProducts(pageIndex), {
-    onError: () => {},
-    onSuccess: (products) => {
-      const fullProductPageCount = Math.floor(products.totalCount / 10);
-      const remainProductPageCount = products.totalCount % 10 > 0 ? 1 : 0;
+  } = useQuery(
+    [QUERY_KEY.PRODUCTS, pageIndex],
+    () => requestGetProducts(pageIndex),
+    {
+      onError: () => {},
+      onSuccess: (products) => {
+        const fullProductPageCount = Math.floor(
+          products.totalCount / PRODUCT_PER_PAGE
+        );
+        const remainProductPageCount =
+          products.totalCount % PRODUCT_PER_PAGE > 0 ? 1 : 0;
 
-      setMaxPage(fullProductPageCount + remainProductPageCount);
-      getWrappedPages(fullProductPageCount + remainProductPageCount);
-    },
-  });
+        setMaxPage(fullProductPageCount + remainProductPageCount);
+        getWrappedPages(fullProductPageCount + remainProductPageCount);
+      },
+    }
+  );
 
   const getWrappedPages = (maxPage: number) => {
     const wrappedPages: number[] = [];
-    const minWrappedPage = Math.floor((pageIndex - 1) / 5) * 5 + 1;
-    const maxWrappedPage = minWrappedPage + 4;
+    const minWrappedPage =
+      Math.floor((pageIndex - 1) / PAGE_COUNT) * PAGE_COUNT + 1;
+    const maxWrappedPage = minWrappedPage + PAGE_COUNT - 1;
 
     for (let i = minWrappedPage; i <= maxWrappedPage; i++) {
       if (maxPage < i) break;
@@ -38,7 +47,9 @@ const usePagination = () => {
   };
 
   const handleClickNextWrappedPageButton = () => {
-    router.push(`${router.basePath}?page=${wrappedPages[4] + 1}`);
+    router.push(
+      `${router.basePath}?page=${wrappedPages[wrappedPages.length - 1] + 1}`
+    );
   };
 
   const handleClickPrevWrappedPageButton = () => {

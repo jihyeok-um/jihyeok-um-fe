@@ -10,7 +10,9 @@ const useProduct = () => {
     data: product,
     isError: productError,
     isLoading: productLoading,
-  } = useQuery(["product", productId], () => requestGetProduct(productId));
+  } = useQuery(["product", productId], () => requestGetProduct(productId), {
+    onError: () => {},
+  });
 
   return { product: product?.product, productError, productLoading };
 };

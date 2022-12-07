@@ -8,7 +8,8 @@ import Spinner from "../components/Spinner";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const InfiniteScrollPage: NextPage = () => {
-  const { lastNodeRef, pages, pagesLoading } = useInfiniteScroll();
+  const { lastNodeRef, pages, pagesLoading, handleRememberScrollY } =
+    useInfiniteScroll();
 
   return (
     <S.Container>
@@ -20,6 +21,7 @@ const InfiniteScrollPage: NextPage = () => {
                 key={page.products[0].id}
                 products={page.products}
                 lastNodeRef={lastNodeRef}
+                handleRememberScrollY={handleRememberScrollY}
               />
             );
           }
@@ -27,6 +29,7 @@ const InfiniteScrollPage: NextPage = () => {
             <MemoizedProductList
               key={page.products[0].id}
               products={page.products}
+              handleRememberScrollY={handleRememberScrollY}
             />
           );
         })}

@@ -4,7 +4,11 @@ import styled from "styled-components";
 import { ProductInfo } from "../../types/product";
 import ProductItem from "./ProductItem";
 
-export const ProductList = ({ products, lastNodeRef }: ProductListProps) => {
+export const ProductList = ({
+  products,
+  lastNodeRef,
+  handleRememberScrollY,
+}: ProductListProps) => {
   return (
     <S.Container>
       {products.map((product, index) => {
@@ -14,10 +18,17 @@ export const ProductList = ({ products, lastNodeRef }: ProductListProps) => {
               key={product.id}
               product={product}
               lastNodeRef={lastNodeRef}
+              handleRememberScrollY={handleRememberScrollY}
             />
           );
         }
-        return <ProductItem key={product.id} product={product} />;
+        return (
+          <ProductItem
+            key={product.id}
+            product={product}
+            handleRememberScrollY={handleRememberScrollY}
+          />
+        );
       })}
     </S.Container>
   );
@@ -27,7 +38,8 @@ export const MemoizedProductList = React.memo(ProductList);
 
 interface ProductListProps {
   products: ProductInfo[];
-  lastNodeRef?: any;
+  lastNodeRef?: (node: HTMLAnchorElement) => void;
+  handleRememberScrollY?: () => void;
 }
 
 const S = {

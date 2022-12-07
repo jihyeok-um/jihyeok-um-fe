@@ -7,13 +7,17 @@ import { getPriceWithComma } from "../../utilities";
 const ProductItem = ({
   product: { id, name, thumbnail, price },
   lastNodeRef,
+  handleRememberScrollY,
 }: ProductItemProps) => {
   const router = useRouter();
 
   return (
     <S.Container
       ref={lastNodeRef}
-      onClick={() => router.push(`/products/${id}`)}
+      onClick={() => {
+        if (handleRememberScrollY) handleRememberScrollY();
+        router.push(`/products/${id}`);
+      }}
     >
       <S.Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
       <S.Name>{name}</S.Name>
@@ -24,7 +28,8 @@ const ProductItem = ({
 
 interface ProductItemProps {
   product: ProductInfo;
-  lastNodeRef?: any;
+  lastNodeRef?: (node: HTMLAnchorElement) => void;
+  handleRememberScrollY?: () => void;
 }
 
 const S = {

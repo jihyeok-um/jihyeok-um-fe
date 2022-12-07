@@ -2,6 +2,8 @@ import type { AppProps } from "next/app";
 import styled from "styled-components";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import setupMSW from "../api/setup";
 import Header from "../components/Header";
 import { UserProvider } from "../contexts/userContext";
@@ -12,6 +14,12 @@ const queryClient = new QueryClient();
 setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    sessionStorage.setItem("prePathname", router.pathname);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>

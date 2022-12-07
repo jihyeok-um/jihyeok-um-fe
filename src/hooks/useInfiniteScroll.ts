@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { requestGetProducts } from "../axios";
 import { PRODUCTS_SIZE, QUERY_KEY } from "../constants";
 
@@ -29,7 +29,7 @@ const useInfiniteScroll = () => {
   );
 
   const lastNodeRef = useCallback(
-    (node: any) => {
+    (node: HTMLAnchorElement) => {
       if (observerRef.current) observerRef.current.disconnect();
 
       observerRef.current = new IntersectionObserver((entries) => {
@@ -43,11 +43,26 @@ const useInfiniteScroll = () => {
     [pages]
   );
 
+  const handleRememberScrollY = () => {
+    sessionStorage.setItem("scrollY", String(window.scrollY));
+  };
+
+  useEffect(() => {
+    const scrollY = Number(sessionStorage.getItem("scrollY"));
+    const prePathname = sessionStorage.getItem("prePathname");
+
+    if (scrollY && prePathname === "/products/[id]") {
+      window.scroll(0, scrollY);
+      sessionStorage.removeItem("scrollY");
+    }
+  }, []);
+
   return {
     pages: pages?.pages,
     pagesLoading,
     observerRef,
     lastNodeRef,
+    handleRememberScrollY,
   };
 };
 

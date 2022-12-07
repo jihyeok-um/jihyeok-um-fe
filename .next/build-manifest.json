@@ -35,15 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/infinite-scroll.js"
     ],
-    "/login": [
+    "/products/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/login.js"
-    ],
-    "/pagination": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/pagination.js"
+      "static/chunks/pages/products/[id].js"
     ]
   },
   "ampFirstPages": []

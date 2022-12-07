@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PRODUCTS_SIZE } from "../constants";
 import { LoginInfo, LoginResponse } from "../types/login";
 import { ProductResponse, ProductsResponse } from "../types/product";
 
@@ -12,7 +13,7 @@ export const requestPostLogin = async (
 
 export const requestGetProducts = async ({
   pageIndex,
-  size = 10,
+  size = PRODUCTS_SIZE.PAGINATION,
 }: RequestGetProductsParams): Promise<ProductsResponse> => {
   const res = await axios.get(`/products?page=${pageIndex}&size=${size}`);
 

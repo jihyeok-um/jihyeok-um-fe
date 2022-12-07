@@ -18,3 +18,8 @@ export const INITIAL_USER_INFO = {
 export const PAGE_COUNT = 5;
 
 export const PRODUCT_PER_PAGE = 10;
+
+export const PRODUCTS_SIZE = {
+  PAGINATION: 10,
+  INFINITY_SCROLL: 16,
+};

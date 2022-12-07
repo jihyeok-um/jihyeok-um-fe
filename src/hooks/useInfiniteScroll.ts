@@ -1,21 +1,28 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef } from "react";
 import { requestGetProducts } from "../axios";
-import { QUERY_KEY } from "../constants";
+import { PRODUCTS_SIZE, QUERY_KEY } from "../constants";
 
 const useInfiniteScroll = () => {
   const observerRef = useRef<IntersectionObserver>();
 
-  const { data: pages, fetchNextPage } = useInfiniteQuery(
+  const {
+    data: pages,
+    isLoading: pagesLoading,
+    fetchNextPage,
+  } = useInfiniteQuery(
     [QUERY_KEY.PRODUCTS],
     ({ pageParam = 1 }) =>
-      requestGetProducts({ pageIndex: pageParam, size: 16 }),
+      requestGetProducts({
+        pageIndex: pageParam,
+        size: PRODUCTS_SIZE.INFINITY_SCROLL,
+      }),
     {
       getNextPageParam: (lastPage) => {
         const lastPageItemId = Number(lastPage.products.at(-1)?.id);
 
         if (lastPageItemId !== lastPage.totalCount) {
-          return Math.floor(lastPageItemId / 16) + 1;
+          return Math.floor(lastPageItemId / PRODUCTS_SIZE.INFINITY_SCROLL) + 1;
         }
       },
     }
@@ -38,6 +45,7 @@ const useInfiniteScroll = () => {
 
   return {
     pages: pages?.pages,
+    pagesLoading,
     observerRef,
     lastNodeRef,
   };

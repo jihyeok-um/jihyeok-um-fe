@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { ProductInfo } from "../../types/product";
@@ -18,7 +19,12 @@ const ProductItem = ({
             if (handleRememberScrollY) handleRememberScrollY();
           }}
         >
-          <S.Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
+          <Image
+            src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"}
+            alt={`${name}의 상품이미지`}
+            width="180px"
+            height="180px"
+          />
           <S.Name>{name}</S.Name>
           <S.Price>{getPriceWithComma(price)}</S.Price>
         </a>
@@ -38,11 +44,6 @@ const S = {
     width: 180px;
     margin-left: 20px;
     margin-top: 20px;
-  `,
-
-  Thumbnail: styled.img`
-    width: 100%;
-    height: 180px;
   `,
 
   Name: styled.p`

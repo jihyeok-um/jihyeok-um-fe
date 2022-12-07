@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 import styled from "styled-components";
 import Error from "../../components/Error";
 import Spinner from "../../components/Spinner";
@@ -14,8 +15,22 @@ const ProductDetailPage: NextPage = () => {
 
   return (
     <>
-      {product?.thumbnail && <S.Thumbnail src={product.thumbnail} />}
-      {!product?.thumbnail && <S.Thumbnail src={"/defaultThumbnail.jpg"} />}
+      {product?.thumbnail && (
+        <Image
+          src={product.thumbnail}
+          alt={`${product.name}의 상품이미지`}
+          width="420px"
+          height="420px"
+        />
+      )}
+      {!product?.thumbnail && (
+        <Image
+          src={"/defaultThumbnail.jpg"}
+          alt={`${product?.name}의 상품이미지`}
+          width="420px"
+          height="420px"
+        />
+      )}
       {product && (
         <S.ProductInfoWrapper>
           <S.Name>{product.name}</S.Name>
@@ -27,11 +42,6 @@ const ProductDetailPage: NextPage = () => {
 };
 
 const S = {
-  Thumbnail: styled.img`
-    width: 100%;
-    height: 420px;
-  `,
-
   ProductInfoWrapper: styled.div`
     margin-top: 20px;
     padding: 0 20px;

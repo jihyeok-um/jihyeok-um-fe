@@ -37,12 +37,12 @@ const S = {
     padding: 0 20px;
   `,
 
-  Name: styled.div`
+  Name: styled.p`
     font-size: 20px;
     font-weight: bold;
   `,
 
-  Price: styled.div`
+  Price: styled.p`
     font-size: 18px;
     margin-top: 8px;
   `,

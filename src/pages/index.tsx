@@ -18,7 +18,7 @@ const HomePage: NextPage = () => {
 export default HomePage;
 
 const S = {
-  Container: styled.div`
+  Container: styled.nav`
     display: flex;
     flex-direction: column;
     justify-content: center;

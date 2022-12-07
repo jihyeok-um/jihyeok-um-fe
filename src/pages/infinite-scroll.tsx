@@ -39,7 +39,7 @@ const InfiniteScrollPage: NextPage = () => {
 };
 
 const S = {
-  Container: styled.div`
+  Container: styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;

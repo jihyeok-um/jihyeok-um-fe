@@ -53,8 +53,6 @@ const S = {
   Form: styled.form`
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
-    padding: 0 20px 40px;
   `,
 
   LoginButton: styled.button`

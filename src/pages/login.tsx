@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 import LoginForm from "../components/loginForm/form/LoginForm";
 import useUser from "../hooks/useUser";
 
@@ -11,7 +12,18 @@ const LoginPage: NextPage = () => {
     router.replace("/");
   }
 
-  return <LoginForm />;
+  return (
+    <S.Container>
+      <LoginForm />
+    </S.Container>
+  );
+};
+
+const S = {
+  Container: styled.main`
+    margin-top: 40px;
+    padding: 0 20px 40px;
+  `,
 };
 
 export default LoginPage;

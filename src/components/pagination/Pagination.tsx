@@ -52,7 +52,7 @@ interface PaginationProps {
 }
 
 const S = {
-  Container: styled.div`
+  Container: styled.nav`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

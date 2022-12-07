@@ -28,7 +28,7 @@ const Header = () => {
 };
 
 const S = {
-  Header: styled.div`
+  Header: styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,6 +37,7 @@ const S = {
 
   Title: styled.a`
     font-size: 48px;
+    cursor: pointer;
   `,
 
   UserInfoContainer: styled.div`

@@ -43,7 +43,7 @@ interface ProductListProps {
 }
 
 const S = {
-  Container: styled.div`
+  Container: styled.ul`
     display: flex;
     flex-wrap: wrap;
     width: 400px;

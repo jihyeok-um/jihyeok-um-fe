@@ -3,16 +3,26 @@ import styled from "styled-components";
 import { ProductInfo } from "../../types/product";
 import ProductItem from "./ProductItem";
 
-const ProductList = ({ products }: ProductListProps) => (
+const ProductList = ({ products, lastNodeRef }: ProductListProps) => (
   <S.Container>
-    {products.map((product) => (
-      <ProductItem key={product.id} product={product} />
-    ))}
+    {products.map((product, index) => {
+      if (index === products.length - 1) {
+        return (
+          <ProductItem
+            key={product.id}
+            product={product}
+            lastNodeRef={lastNodeRef}
+          />
+        );
+      }
+      return <ProductItem key={product.id} product={product} />;
+    })}
   </S.Container>
 );
 
 interface ProductListProps {
   products: ProductInfo[];
+  lastNodeRef?: any;
 }
 
 const S = {

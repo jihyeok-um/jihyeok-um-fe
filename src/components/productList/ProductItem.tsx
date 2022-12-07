@@ -6,11 +6,15 @@ import { getPriceWithComma } from "../../utilities";
 
 const ProductItem = ({
   product: { id, name, thumbnail, price },
+  lastNodeRef,
 }: ProductItemProps) => {
   const router = useRouter();
 
   return (
-    <S.Container onClick={() => router.push(`/products/${id}`)}>
+    <S.Container
+      ref={lastNodeRef}
+      onClick={() => router.push(`/products/${id}`)}
+    >
       <S.Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
       <S.Name>{name}</S.Name>
       <S.Price>{getPriceWithComma(price)}</S.Price>
@@ -20,6 +24,7 @@ const ProductItem = ({
 
 interface ProductItemProps {
   product: ProductInfo;
+  lastNodeRef?: any;
 }
 
 const S = {

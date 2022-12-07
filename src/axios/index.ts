@@ -10,10 +10,11 @@ export const requestPostLogin = async (
   return res.data.data;
 };
 
-export const requestGetProducts = async (
-  pageIndex: number
-): Promise<ProductsResponse> => {
-  const res = await axios.get(`/products?page=${pageIndex}&size=10`);
+export const requestGetProducts = async ({
+  pageIndex,
+  size = 10,
+}: RequestGetProductsParams): Promise<ProductsResponse> => {
+  const res = await axios.get(`/products?page=${pageIndex}&size=${size}`);
 
   return res.data.data;
 };
@@ -25,3 +26,8 @@ export const requestGetProduct = async (
 
   return res.data.data;
 };
+
+interface RequestGetProductsParams {
+  pageIndex: number;
+  size?: number;
+}

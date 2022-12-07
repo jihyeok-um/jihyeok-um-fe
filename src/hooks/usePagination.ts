@@ -16,7 +16,7 @@ const usePagination = () => {
     isError: productsError,
   } = useQuery(
     [QUERY_KEY.PRODUCTS, pageIndex],
-    () => requestGetProducts(pageIndex),
+    () => requestGetProducts({ pageIndex }),
     {
       onError: () => {},
       onSuccess: (products) => {

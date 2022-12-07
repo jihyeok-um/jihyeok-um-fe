@@ -1,10 +1,14 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
-import ProductList from "../components/productList/ProductList";
+import {
+  MemoizedProductList,
+  ProductList,
+} from "../components/productList/ProductList";
+import Spinner from "../components/Spinner";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const InfiniteScrollPage: NextPage = () => {
-  const { lastNodeRef, pages } = useInfiniteScroll();
+  const { lastNodeRef, pages, pagesLoading } = useInfiniteScroll();
 
   return (
     <S.Container>
@@ -12,11 +16,21 @@ const InfiniteScrollPage: NextPage = () => {
         pages.map((page, index) => {
           if (index === pages.length - 1) {
             return (
-              <ProductList products={page.products} lastNodeRef={lastNodeRef} />
+              <ProductList
+                key={page.products[0].id}
+                products={page.products}
+                lastNodeRef={lastNodeRef}
+              />
             );
           }
-          return <ProductList products={page.products} />;
+          return (
+            <MemoizedProductList
+              key={page.products[0].id}
+              products={page.products}
+            />
+          );
         })}
+      {pagesLoading && <Spinner />}
     </S.Container>
   );
 };

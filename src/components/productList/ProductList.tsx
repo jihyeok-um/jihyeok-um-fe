@@ -1,24 +1,29 @@
+import React from "react";
 import styled from "styled-components";
 
 import { ProductInfo } from "../../types/product";
 import ProductItem from "./ProductItem";
 
-const ProductList = ({ products, lastNodeRef }: ProductListProps) => (
-  <S.Container>
-    {products.map((product, index) => {
-      if (index === products.length - 1) {
-        return (
-          <ProductItem
-            key={product.id}
-            product={product}
-            lastNodeRef={lastNodeRef}
-          />
-        );
-      }
-      return <ProductItem key={product.id} product={product} />;
-    })}
-  </S.Container>
-);
+export const ProductList = ({ products, lastNodeRef }: ProductListProps) => {
+  return (
+    <S.Container>
+      {products.map((product, index) => {
+        if (index === products.length - 1) {
+          return (
+            <ProductItem
+              key={product.id}
+              product={product}
+              lastNodeRef={lastNodeRef}
+            />
+          );
+        }
+        return <ProductItem key={product.id} product={product} />;
+      })}
+    </S.Container>
+  );
+};
+
+export const MemoizedProductList = React.memo(ProductList);
 
 interface ProductListProps {
   products: ProductInfo[];
@@ -33,5 +38,3 @@ const S = {
     margin-left: -20px;
   `,
 };
-
-export default ProductList;

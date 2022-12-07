@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Error from "../components/Error";
 
 import Pagination from "../components/pagination/Pagination";
-import ProductList from "../components/productList/ProductList";
+import { ProductList } from "../components/productList/ProductList";
 import Spinner from "../components/Spinner";
 import usePagination from "../hooks/usePagination";
 
